@@ -1,356 +1,366 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Hari Raya Idul Fitri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;600&display=swap');
-
         :root {
-            --dark-green-overlay: rgba(1, 31, 16, 0.85);
-            --emerald: #10894a;
             --gold: #FFD700;
-            --light-gold: #FFF2A8;
-            --ketupat-dark: #2e7d32;
-            --ketupat-light: #81c784;
+            --gold-light: #ffea75;
+            --emerald-dark: #01170b;
+            --emerald-light: #04381d;
+            --glass-bg: rgba(4, 56, 29, 0.4);
+            --glass-border: rgba(255, 215, 0, 0.4);
         }
-
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
         body, html {
-            width: 100%; 
+            width: 100%;
             height: 100%;
             overflow: hidden;
             font-family: 'Poppins', sans-serif;
-            color: white;
-            background-color: #011f10;
+            background-color: var(--emerald-dark);
         }
-
-        .scene {
-            position: relative; 
-            width: 100vw; 
-            height: 100vh;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center;
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
             background-image: 
-                linear-gradient(var(--dark-green-overlay), var(--dark-green-overlay)),
-                url('https://images.unsplash.com/photo-1621379965049-d77926768a8d?q=80&w=1920');
+                radial-gradient(circle at center, rgba(1, 23, 11, 0.6) 0%, rgba(1, 10, 5, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-blend-mode: multiply;
+            filter: contrast(1.2) brightness(1.1);
         }
-
-        .stars {
-            position: absolute; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            z-index: 0;
-        }
-        .star {
-            position: absolute; 
-            background: white; 
-            border-radius: 50%;
-            animation: twinkle infinite alternate;
-        }
-        #particles { 
-            position: absolute; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            z-index: 1; 
+        .light-beam {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(ellipse at bottom, rgba(0, 255, 128, 0.15) 0%, transparent 70%);
+            transform: translateX(-50%);
+            z-index: 1;
             pointer-events: none;
         }
-
-        .hanging-ornament {
+        .stars {
             position: absolute;
-            top: -10px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 2;
-            animation: swing 4s ease-in-out infinite alternate;
-            transform-origin: top center;
+        }
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle infinite alternate ease-in-out;
+            box-shadow: 0 0 5px #ffffff;
+        }
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .ornament-container {
+            position: absolute;
+            top: -20px;
+            z-index: 4;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transform-origin: top center;
+            animation: swing 4s ease-in-out infinite alternate;
         }
-        .string {
-            width: 1px;
-            background: var(--gold);
-            box-shadow: 0 0 5px var(--gold);
+        .ornament-chain {
+            width: 2px;
+            background: linear-gradient(to bottom, #b38728, #fbf5b7, #b38728);
+            box-shadow: 0 0 8px var(--gold);
         }
-        
-        .star-8 {
-            width: 30px; height: 30px;
-            background: var(--gold);
+        .ornament-star {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #FFD700, #b8860b);
             position: relative;
             transform: rotate(22.5deg);
-            box-shadow: 0 0 15px rgba(255,215,0,0.4);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
             margin-top: -5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #fff;
         }
-        .star-8::before {
+        .ornament-star::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: var(--gold);
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #FFD700, #b8860b);
             transform: rotate(45deg);
+            border: 2px solid #fff;
+            z-index: -1;
         }
-
-        .crescent-svg {
-            width: 35px; height: 35px;
-            fill: var(--gold);
-            filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
-            margin-top: 5px;
+        .ornament-star::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #01170b;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: inset 0 0 5px #000;
+        }
+        .ornament-crescent {
+            width: 50px;
+            height: 50px;
+            fill: url(#goldGradient);
+            filter: drop-shadow(0 0 15px rgba(255,215,0,0.8));
+            margin-top: 15px;
             transform: rotate(-15deg);
         }
-
-        .ornament-1 { left: 12%; animation-delay: 0.2s; }
-        .ornament-1 .string { height: 100px; }
-        
-        .ornament-2 { right: 12%; animation-delay: 1.5s; }
-        .ornament-2 .string { height: 140px; }
-
-        .ornament-3 { left: 50%; transform: translateX(-50%); animation-delay: 0.8s; }
-        .ornament-3 .string { height: 60px; }
-
+        .o1 { left: 15%; animation-delay: 0.2s; }
+        .o1 .ornament-chain { height: 150px; }
+        .o2 { right: 15%; animation-delay: 1.5s; }
+        .o2 .ornament-chain { height: 200px; }
         .ketupat-wrapper {
             position: absolute;
-            top: -10px;
-            z-index: 3;
-            animation: swing 3s ease-in-out infinite alternate;
-            transform-origin: top center;
+            top: -20px;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transform-origin: top center;
+            animation: swing 3.5s ease-in-out infinite alternate;
         }
-        .ketupat-string {
-            width: 2px;
+        .ketupat-rope {
+            width: 3px;
             background: #a3b18a;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
         }
         .ketupat-body {
-            width: 46px; height: 46px;
-            background-color: var(--ketupat-dark);
+            width: 70px;
+            height: 70px;
+            background-color: #1b5e20;
             background-image: 
-                linear-gradient(45deg, var(--ketupat-light) 25%, transparent 25%, transparent 75%, var(--ketupat-light) 75%, var(--ketupat-light)),
-                linear-gradient(-45deg, var(--ketupat-light) 25%, transparent 25%, transparent 75%, var(--ketupat-light) 75%, var(--ketupat-light));
-            background-size: 23px 23px;
+                linear-gradient(45deg, #81c784 25%, transparent 25%, transparent 75%, #81c784 75%, #81c784),
+                linear-gradient(-45deg, #81c784 25%, transparent 25%, transparent 75%, #81c784 75%, #81c784);
+            background-size: 35px 35px;
             transform: rotate(45deg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.9);
+            border: 2px solid #0a2e10;
             position: relative;
-            border: 1px solid #1b5e20;
         }
         .ketupat-body::after, .ketupat-body::before {
             content: '';
             position: absolute;
-            width: 8px; height: 25px;
-            background: var(--ketupat-light);
-            bottom: -20px;
-            border-radius: 0 0 10px 10px;
+            width: 10px;
+            height: 40px;
+            background: #81c784;
+            bottom: -35px;
+            border-radius: 0 0 15px 15px;
             z-index: -1;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.5);
         }
-        .ketupat-body::after { left: 5px; transform: rotate(-20deg); }
-        .ketupat-body::before { right: 5px; transform: rotate(20deg); }
-
-        .ket-1 { left: 22%; animation-delay: 0.8s; }
-        .ket-1 .ketupat-string { height: 180px; }
-        
-        .ket-2 { right: 25%; animation-delay: 2.1s; }
-        .ket-2 .ketupat-string { height: 110px; }
-        .ket-2 .ketupat-body { transform: rotate(45deg) scale(0.8); }
-
-        .ket-3 { left: 6%; animation-delay: 1.2s; }
-        .ket-3 .ketupat-string { height: 250px; }
-        .ket-3 .ketupat-body { transform: rotate(45deg) scale(1.1); z-index: 4; }
-
-        .ket-4 { right: 8%; animation-delay: 0.5s; top: 20%; }
-        .ket-4 .ketupat-string { height: 130px; }
-        .ket-4 .ketupat-body { transform: rotate(45deg) scale(0.9); }
-
-        .ket-5 { left: 45%; animation-delay: 1.8s; top: -20px;}
-        .ket-5 .ketupat-string { height: 90px; }
-        .ket-5 .ketupat-body { transform: rotate(45deg) scale(0.7); opacity: 0.8;}
-
-        .greeting-card {
-            z-index: 10; 
+        .ketupat-body::after { left: 8px; transform: rotate(-25deg); }
+        .ketupat-body::before { right: 8px; transform: rotate(25deg); }
+        .k1 { left: 28%; animation-delay: 0.5s; }
+        .k1 .ketupat-rope { height: 220px; }
+        .k2 { right: 26%; animation-delay: 2.1s; }
+        .k2 .ketupat-rope { height: 130px; }
+        .k2 .ketupat-body { transform: rotate(45deg) scale(0.8); }
+        .k3 { left: 8%; animation-delay: 1.2s; }
+        .k3 .ketupat-rope { height: 320px; }
+        .k3 .ketupat-body { transform: rotate(45deg) scale(1.3); }
+        .k4 { right: 6%; animation-delay: 0.9s; top: 10%; }
+        .k4 .ketupat-rope { height: 180px; }
+        .k4 .ketupat-body { transform: rotate(45deg) scale(1.1); }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 50px 80px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            padding: 50px 70px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,215,0,0.1);
-            animation: popup 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0; 
-            transform: scale(0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7), inset 0 0 40px rgba(255,215,0,0.15);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: cardEntrance 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             max-width: 90%;
+            position: relative;
+            overflow: hidden;
         }
-
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
         .subtitle {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.3rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--light-gold);
-            margin-bottom: -10px;
-            font-weight: 300;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            color: var(--gold-light);
+            margin-bottom: -5px;
+            text-shadow: 0 0 10px rgba(255, 234, 117, 0.5);
         }
-
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 5.2rem; 
-            font-weight: 600;
+            font-size: 6rem;
             color: var(--gold);
-            text-shadow: 0 0 25px rgba(255,215,0,0.6);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 25px rgba(255, 215, 0, 0.6);
             line-height: 1.1;
+            margin-bottom: 5px;
         }
-
-        .date { 
-            font-size: 1.2rem; 
-            font-weight: 300; 
-            letter-spacing: 3px; 
+        .date {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: #fff;
             margin-bottom: 20px;
-            color: white;
         }
-
         .divider {
-            width: 80px;
-            height: 3px;
-            background: var(--gold);
-            border-radius: 5px;
-            margin: 10px 0;
-            box-shadow: 0 0 10px var(--gold);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 0 auto 20px auto;
         }
-
-        .sub-message {
-            font-size: 1.05rem;
+        .message {
+            font-size: 1.15rem;
             font-weight: 300;
-            opacity: 0.95;
-            margin-bottom: 25px;
-            line-height: 1.6;
+            line-height: 1.8;
+            color: #f0f0f0;
+            margin-bottom: 35px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
-
         .cta-link {
             text-decoration: none;
-            z-index: 11;
-            margin-top: 10px;
+            display: inline-block;
         }
         .cta-button {
-            background: linear-gradient(45deg, var(--gold), #ffaa00);
-            color: #3e2e1c;
-            border: none;
-            padding: 16px 40px;
-            border-radius: 50px;
+            background: linear-gradient(135deg, #FFD700, #d4af37, #b8860b);
+            color: #1a1001;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             font-size: 1.1rem;
+            padding: 16px 50px;
+            border: 2px solid #ffea75;
+            border-radius: 50px;
+            cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 2px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4), inset 0 2px 5px rgba(255,255,255,0.5);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            animation: slideUpFade 1s ease-out 1.2s forwards;
-            opacity: 0;
-            transform: translateY(20px);
         }
         .cta-button:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6), inset 0 2px 5px rgba(255,255,255,0.8);
             color: #000;
         }
-
-        @keyframes twinkle { 
-            0% { opacity: 0.1; transform: scale(0.5); } 
-            100% { opacity: 1; transform: scale(1.2); } 
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 15px #ffffff; }
         }
-        @keyframes swing { 
-            0% { transform: rotate(5deg); } 
-            100% { transform: rotate(-5deg); } 
+        @keyframes swing {
+            0% { transform: rotate(4deg); }
+            100% { transform: rotate(-4deg); }
         }
-        @keyframes popup { 
-            to { opacity: 1; transform: scale(1); } 
-        }
-        @keyframes slideUpFade {
+        @keyframes cardEntrance {
             to { opacity: 1; transform: translateY(0); }
         }
-
         @media (max-width: 768px) {
-            .scene { background-attachment: scroll; }
             h1 { font-size: 3.5rem; }
-            .subtitle { font-size: 1rem; letter-spacing: 3px;}
-            .greeting-card { padding: 40px 25px; width: 92%; }
-            .sub-message { font-size: 0.95rem; }
-            .cta-button { padding: 14px 30px; font-size: 1rem; }
-            
-            .ket-3, .ket-5, .ornament-3 { display: none; } 
-            .ket-1 .ketupat-string { height: 120px; }
-            .ket-4 { top: 15%; right: 5%; }
-            .ornament-1 .string { height: 70px; }
-            .ornament-2 .string { height: 100px; }
+            .subtitle { font-size: 1rem; letter-spacing: 2px; }
+            .glass-card { padding: 40px 20px; width: 92%; }
+            .message { font-size: 0.95rem; }
+            .cta-button { padding: 14px 35px; font-size: 1rem; }
+            .k3, .o1 { display: none; }
+            .k1 .ketupat-rope { height: 120px; }
+            .o2 .ornament-chain { height: 100px; }
         }
     </style>
 </head>
 <body>
 
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD700" />
+            <stop offset="50%" stop-color="#d4af37" />
+            <stop offset="100%" stop-color="#b8860b" />
+        </linearGradient>
+    </svg>
+
+    <div class="background"></div>
+    <div class="light-beam"></div>
+    <div class="stars" id="stars"></div>
+    <canvas id="particles"></canvas>
+
+    <div class="ornament-container o1">
+        <div class="ornament-chain"></div>
+        <div class="ornament-star"></div>
+    </div>
+    
+    <div class="ornament-container o2">
+        <div class="ornament-chain"></div>
+        <svg class="ornament-crescent" viewBox="0 0 512 512">
+            <path d="M416.3 381.1c-91.1 0-165-73.9-165-165 0-38.3 13.1-73.5 35-101.4-78.1 19-136.3 89.2-136.3 172.9 0 98.6 79.9 178.5 178.5 178.5 83.7 0 153.9-58.3 172.9-136.3-27.9 21.9-63.1 35-101.4 35z"/>
+        </svg>
+    </div>
+
+    <div class="ketupat-wrapper k1">
+        <div class="ketupat-rope"></div>
+        <div class="ketupat-body"></div>
+    </div>
+    <div class="ketupat-wrapper k2">
+        <div class="ketupat-rope"></div>
+        <div class="ketupat-body"></div>
+    </div>
+    <div class="ketupat-wrapper k3">
+        <div class="ketupat-rope"></div>
+        <div class="ketupat-body"></div>
+    </div>
+    <div class="ketupat-wrapper k4">
+        <div class="ketupat-rope"></div>
+        <div class="ketupat-body"></div>
+    </div>
+
     <div class="scene">
-        <div class="stars" id="star-container"></div>
-        <canvas id="particles"></canvas>
-
-        <div class="hanging-ornament ornament-1">
-            <div class="string"></div>
-            <div class="star-8"></div>
-        </div>
-        <div class="hanging-ornament ornament-2">
-            <div class="string"></div>
-            <svg class="crescent-svg" viewBox="0 0 512 512">
-                <path d="M416.3 381.1c-91.1 0-165-73.9-165-165 0-38.3 13.1-73.5 35-101.4-78.1 19-136.3 89.2-136.3 172.9 0 98.6 79.9 178.5 178.5 178.5 83.7 0 153.9-58.3 172.9-136.3-27.9 21.9-63.1 35-101.4 35z"/>
-            </svg>
-        </div>
-        <div class="hanging-ornament ornament-3">
-            <div class="string"></div>
-            <div class="star-8"></div>
-        </div>
-
-        <div class="ketupat-wrapper ket-1">
-            <div class="ketupat-string"></div>
-            <div class="ketupat-body"></div>
-        </div>
-        <div class="ketupat-wrapper ket-2">
-            <div class="ketupat-string"></div>
-            <div class="ketupat-body"></div>
-        </div>
-        <div class="ketupat-wrapper ket-3">
-            <div class="ketupat-string"></div>
-            <div class="ketupat-body"></div>
-        </div>
-        <div class="ketupat-wrapper ket-4">
-            <div class="ketupat-string"></div>
-            <div class="ketupat-body"></div>
-        </div>
-        <div class="ketupat-wrapper ket-5">
-            <div class="ketupat-string"></div>
-            <div class="ketupat-body"></div>
-        </div>
-
-        <div class="greeting-card">
+        <div class="glass-card">
             <p class="subtitle">Selamat Hari Raya</p>
-            <h1>Idul Fitri</h1>
+            <h1>IDUL FITRI</h1>
             <p class="date">1 Syawal 1447 H</p>
             
             <div class="divider"></div>
             
-            <p class="sub-message">Mari kembali fitrah dengan menyucikan hati,<br>mempererat silaturahmi, dan membuka<br>lembaran baru yang lebih baik.</p>
+            <p class="message">Mari kembali fitrah dengan menyucikan hati,<br>mempererat silaturahmi, dan membuka<br>lembaran baru yang lebih baik.</p>
             
             <a href="https://lebarantiba.my.id/" class="cta-link" target="_blank">
                 <button class="cta-button">KLIK DISINI</button>
@@ -359,82 +369,80 @@
     </div>
 
     <script>
-        const starContainer = document.getElementById('star-container');
-        const particleCountConfig = window.innerWidth < 768 ? 70 : 150; 
-
-        for (let i = 0; i < particleCountConfig; i++) {
+        const starsContainer = document.getElementById('stars');
+        const starCount = window.innerWidth < 768 ? 60 : 150;
+        
+        for (let i = 0; i < starCount; i++) {
             let star = document.createElement('div');
-            star.classList.add('star');
+            star.className = 'star';
             star.style.left = Math.random() * 100 + 'vw';
             star.style.top = Math.random() * 100 + 'vh';
-            
-            let size = Math.random() * 2.5;
+            let size = Math.random() * 2.5 + 0.5;
             star.style.width = size + 'px';
             star.style.height = size + 'px';
-            
-            star.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
             star.style.animationDelay = Math.random() * 2 + 's';
-            starContainer.appendChild(star);
+            starsContainer.appendChild(star);
         }
 
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
+        let particles = [];
+
+        function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        
+        window.addEventListener('resize', resize);
+        resize();
 
-        let particlesArray = [];
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 0.5; 
-                this.speedX = (Math.random() * 0.6) - 0.3;
-                this.speedY = (Math.random() * 1.2) + 0.4; 
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.opacity = Math.random() * 0.8 + 0.2;
             }
             update() {
                 this.x += this.speedX;
-                this.y -= this.speedY; 
-                
-                if (this.size > 0.1) this.size -= 0.003; 
-                
-                if(this.x < 0 || this.x > canvas.width || this.y < 0 || this.size <= 0.1) {
+                this.y -= this.speedY;
+                if (this.size > 0.1) this.size -= 0.005;
+                if (this.y < 0 || this.x < 0 || this.x > canvas.width || this.size <= 0.1) {
                     this.x = Math.random() * canvas.width;
                     this.y = canvas.height + 10;
-                    this.size = Math.random() * 3 + 0.5;
+                    this.size = Math.random() * 3 + 1;
                 }
             }
             draw() {
-                ctx.fillStyle = 'rgba(255, 215, 0, 0.7)'; 
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        function initParticles() {
-            particlesArray = [];
-            let particleCount = window.innerWidth < 768 ? 30 : 70; 
-            for (let i = 0; i < particleCount; i++) {
-                particlesArray.push(new Particle());
+        function init() {
+            particles = [];
+            let pCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < pCount; i++) {
+                particles.push(new Particle());
             }
         }
 
-        function animateParticles() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
-            requestAnimationFrame(animateParticles);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
         }
 
-        initParticles();
-        animateParticles();
+        init();
+        animate();
     </script>
 </body>
 </html>
