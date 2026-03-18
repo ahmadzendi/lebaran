@@ -1,0 +1,441 @@
+export var HTML_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Hari Raya Idul Fitri</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --dark-green-overlay: rgba(1, 31, 16, 0.85);
+            --emerald: #10894a;
+            --gold: #FFD700;
+            --light-gold: #FFF2A8;
+            --ketupat-dark: #2e7d32;
+            --ketupat-light: #81c784;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body, html {
+            width: 100%; 
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            background-color: #011f10;
+        }
+
+        .scene {
+            position: relative; 
+            width: 100vw; 
+            height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            background-image: 
+                linear-gradient(var(--dark-green-overlay), var(--dark-green-overlay)),
+                url('https://images.unsplash.com/photo-1621379965049-d77926768a8d?q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .stars {
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            z-index: 0;
+        }
+        .star {
+            position: absolute; 
+            background: white; 
+            border-radius: 50%;
+            animation: twinkle infinite alternate;
+        }
+        #particles { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            z-index: 1; 
+            pointer-events: none;
+        }
+
+        .hanging-ornament {
+            position: absolute;
+            top: -10px;
+            z-index: 2;
+            animation: swing 4s ease-in-out infinite alternate;
+            transform-origin: top center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .string {
+            width: 1px;
+            background: var(--gold);
+            box-shadow: 0 0 5px var(--gold);
+        }
+        
+        .star-8 {
+            width: 30px; height: 30px;
+            background: var(--gold);
+            position: relative;
+            transform: rotate(22.5deg);
+            box-shadow: 0 0 15px rgba(255,215,0,0.4);
+            margin-top: -5px;
+        }
+        .star-8::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        .crescent-svg {
+            width: 35px; height: 35px;
+            fill: var(--gold);
+            filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
+            margin-top: 5px;
+            transform: rotate(-15deg);
+        }
+
+        .ornament-1 { left: 12%; animation-delay: 0.2s; }
+        .ornament-1 .string { height: 100px; }
+        
+        .ornament-2 { right: 12%; animation-delay: 1.5s; }
+        .ornament-2 .string { height: 140px; }
+
+        .ornament-3 { left: 50%; transform: translateX(-50%); animation-delay: 0.8s; }
+        .ornament-3 .string { height: 60px; }
+
+        .ketupat-wrapper {
+            position: absolute;
+            top: -10px;
+            z-index: 3;
+            animation: swing 3s ease-in-out infinite alternate;
+            transform-origin: top center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ketupat-string {
+            width: 2px;
+            background: #a3b18a;
+        }
+        .ketupat-body {
+            width: 46px; height: 46px;
+            background-color: var(--ketupat-dark);
+            background-image: 
+                linear-gradient(45deg, var(--ketupat-light) 25%, transparent 25%, transparent 75%, var(--ketupat-light) 75%, var(--ketupat-light)),
+                linear-gradient(-45deg, var(--ketupat-light) 25%, transparent 25%, transparent 75%, var(--ketupat-light) 75%, var(--ketupat-light));
+            background-size: 23px 23px;
+            transform: rotate(45deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 10px rgba(0,0,0,0.5);
+            position: relative;
+            border: 1px solid #1b5e20;
+        }
+        .ketupat-body::after, .ketupat-body::before {
+            content: '';
+            position: absolute;
+            width: 8px; height: 25px;
+            background: var(--ketupat-light);
+            bottom: -20px;
+            border-radius: 0 0 10px 10px;
+            z-index: -1;
+        }
+        .ketupat-body::after { left: 5px; transform: rotate(-20deg); }
+        .ketupat-body::before { right: 5px; transform: rotate(20deg); }
+
+        .ket-1 { left: 22%; animation-delay: 0.8s; }
+        .ket-1 .ketupat-string { height: 180px; }
+        
+        .ket-2 { right: 25%; animation-delay: 2.1s; }
+        .ket-2 .ketupat-string { height: 110px; }
+        .ket-2 .ketupat-body { transform: rotate(45deg) scale(0.8); }
+
+        .ket-3 { left: 6%; animation-delay: 1.2s; }
+        .ket-3 .ketupat-string { height: 250px; }
+        .ket-3 .ketupat-body { transform: rotate(45deg) scale(1.1); z-index: 4; }
+
+        .ket-4 { right: 8%; animation-delay: 0.5s; top: 20%; }
+        .ket-4 .ketupat-string { height: 130px; }
+        .ket-4 .ketupat-body { transform: rotate(45deg) scale(0.9); }
+
+        .ket-5 { left: 45%; animation-delay: 1.8s; top: -20px;}
+        .ket-5 .ketupat-string { height: 90px; }
+        .ket-5 .ketupat-body { transform: rotate(45deg) scale(0.7); opacity: 0.8;}
+
+        .greeting-card {
+            z-index: 10; 
+            text-align: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 50px 70px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7), inset 0 0 30px rgba(255,215,0,0.1);
+            animation: popup 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0; 
+            transform: scale(0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            max-width: 90%;
+        }
+
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--light-gold);
+            margin-bottom: -10px;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5.2rem; 
+            font-weight: 600;
+            color: var(--gold);
+            text-shadow: 0 0 25px rgba(255,215,0,0.6);
+            line-height: 1.1;
+        }
+
+        .date { 
+            font-size: 1.2rem; 
+            font-weight: 300; 
+            letter-spacing: 3px; 
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 5px;
+            margin: 10px 0;
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        .sub-message {
+            font-size: 1.05rem;
+            font-weight: 300;
+            opacity: 0.95;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .cta-link {
+            text-decoration: none;
+            z-index: 11;
+            margin-top: 10px;
+        }
+        .cta-button {
+            background: linear-gradient(45deg, var(--gold), #ffaa00);
+            color: #3e2e1c;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: slideUpFade 1s ease-out 1.2s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7);
+            color: #000;
+        }
+
+        @keyframes twinkle { 
+            0% { opacity: 0.1; transform: scale(0.5); } 
+            100% { opacity: 1; transform: scale(1.2); } 
+        }
+        @keyframes swing { 
+            0% { transform: rotate(5deg); } 
+            100% { transform: rotate(-5deg); } 
+        }
+        @keyframes popup { 
+            to { opacity: 1; transform: scale(1); } 
+        }
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .scene { background-attachment: scroll; }
+            h1 { font-size: 3.5rem; }
+            .subtitle { font-size: 1rem; letter-spacing: 3px;}
+            .greeting-card { padding: 40px 25px; width: 92%; }
+            .sub-message { font-size: 0.95rem; }
+            .cta-button { padding: 14px 30px; font-size: 1rem; }
+            
+            .ket-3, .ket-5, .ornament-3 { display: none; } 
+            .ket-1 .ketupat-string { height: 120px; }
+            .ket-4 { top: 15%; right: 5%; }
+            .ornament-1 .string { height: 70px; }
+            .ornament-2 .string { height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scene">
+        <div class="stars" id="star-container"></div>
+        <canvas id="particles"></canvas>
+
+        <div class="hanging-ornament ornament-1">
+            <div class="string"></div>
+            <div class="star-8"></div>
+        </div>
+        <div class="hanging-ornament ornament-2">
+            <div class="string"></div>
+            <svg class="crescent-svg" viewBox="0 0 512 512">
+                <path d="M416.3 381.1c-91.1 0-165-73.9-165-165 0-38.3 13.1-73.5 35-101.4-78.1 19-136.3 89.2-136.3 172.9 0 98.6 79.9 178.5 178.5 178.5 83.7 0 153.9-58.3 172.9-136.3-27.9 21.9-63.1 35-101.4 35z"/>
+            </svg>
+        </div>
+        <div class="hanging-ornament ornament-3">
+            <div class="string"></div>
+            <div class="star-8"></div>
+        </div>
+
+        <div class="ketupat-wrapper ket-1">
+            <div class="ketupat-string"></div>
+            <div class="ketupat-body"></div>
+        </div>
+        <div class="ketupat-wrapper ket-2">
+            <div class="ketupat-string"></div>
+            <div class="ketupat-body"></div>
+        </div>
+        <div class="ketupat-wrapper ket-3">
+            <div class="ketupat-string"></div>
+            <div class="ketupat-body"></div>
+        </div>
+        <div class="ketupat-wrapper ket-4">
+            <div class="ketupat-string"></div>
+            <div class="ketupat-body"></div>
+        </div>
+        <div class="ketupat-wrapper ket-5">
+            <div class="ketupat-string"></div>
+            <div class="ketupat-body"></div>
+        </div>
+
+        <div class="greeting-card">
+            <p class="subtitle">Selamat Hari Raya</p>
+            <h1>Idul Fitri</h1>
+            <p class="date">1 Syawal 1447 H</p>
+            
+            <div class="divider"></div>
+            
+            <p class="sub-message">Mari kembali fitrah dengan menyucikan hati,<br>mempererat silaturahmi, dan membuka<br>lembaran baru yang lebih baik.</p>
+            
+            <a href="https://lebarantiba.my.id/" class="cta-link" target="_blank">
+                <button class="cta-button">KLIK DISINI</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const starContainer = document.getElementById('star-container');
+        const particleCountConfig = window.innerWidth < 768 ? 70 : 150; 
+
+        for (let i = 0; i < particleCountConfig; i++) {
+            let star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            
+            let size = Math.random() * 2.5;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's'; 
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starContainer.appendChild(star);
+        }
+
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        let particlesArray = [];
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 0.5; 
+                this.speedX = (Math.random() * 0.6) - 0.3;
+                this.speedY = (Math.random() * 1.2) + 0.4; 
+            }
+            update() {
+                this.x += this.speedX;
+                this.y -= this.speedY; 
+                
+                if (this.size > 0.1) this.size -= 0.003; 
+                
+                if(this.x < 0 || this.x > canvas.width || this.y < 0 || this.size <= 0.1) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 10;
+                    this.size = Math.random() * 3 + 0.5;
+                }
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 215, 0, 0.7)'; 
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            let particleCount = window.innerWidth < 768 ? 30 : 70; 
+            for (let i = 0; i < particleCount; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+    </script>
+</body>
+</html>
+`;
